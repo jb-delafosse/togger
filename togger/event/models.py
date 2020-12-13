@@ -49,11 +49,11 @@ class Event(EventBase):
 
     def get_color(self):
         if len(self.shifts) > 1:
-            return "#88B04B"
+            return "#69B34C"
         elif len(self.shifts) > 0:
-            return "#E08119"
+            return "#FF8E15"
         else:
-            return "#9F9C99"
+            return "#FF0D0D"
 
 
 class RecurEvent(EventBase):
