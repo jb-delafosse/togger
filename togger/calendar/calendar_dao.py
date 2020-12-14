@@ -2,7 +2,7 @@ import flask_login
 from flask import flash
 from flask.json import dumps
 
-from togger import db
+from togger import db  # type: ignore[attr-defined]
 from togger.auth import auth_dao
 from togger.auth.models import Role
 from togger.calendar.models import Share, Calendar
@@ -33,17 +33,24 @@ def get_shares():
 @auth_dao.has_role(Role.OWNER)
 def change_share(user_id, role_type):
     calendar = get_current_calendar()
-    role = Role.query.filter(Role.calendar_id == calendar.id).filter(Role.user_id == user_id).first()
+    role = (
+        Role.query.filter(Role.calendar_id == calendar.id)
+        .filter(Role.user_id == user_id)
+        .first()
+    )
     if role.type >= Role.OWNER:
-        flash('Not possible to change the permission of the current owner.', 'warning')
+        flash(
+            "Not possible to change the permission of the current owner.",
+            "warning",
+        )
         return role
     if role_type > 0:
         if role_type >= Role.OWNER:
             set_owner(user_id)
-            flash("Ownership for the calendar was transferred.", 'success')
+            flash("Ownership for the calendar was transferred.", "success")
         else:
             role.type = role_type
-            flash("Permission changed", 'success')
+            flash("Permission changed", "success")
             db.session.merge(role)
     else:
         db.session.delete(role)
@@ -63,12 +70,13 @@ def accept_share(share_token):
                     break
                 else:
                     return
-        role = Role(type=share.role_type, calendar_id=share.calendar_id,
-                    is_default=True)
+        role = Role(
+            type=share.role_type, calendar_id=share.calendar_id, is_default=True
+        )
         flask_login.current_user.roles.append(role)
         db.session.merge(flask_login.current_user)
         db.session.commit()
-        flash("New calendar was added", 'success')
+        flash("New calendar was added", "success")
 
 
 def get_current_calendar():
@@ -77,7 +85,6 @@ def get_current_calendar():
             return role.calendar
     else:
         return None
-    return role.calendar
 
 
 def set_default(calendar_id):
