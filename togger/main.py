@@ -1,6 +1,6 @@
 import flask_login
 from flask import redirect, render_template, request, url_for
-from togger import application
+from togger import application  # type: ignore[attr-defined]
 from togger.auth import auth_api, auth_dao
 from togger.calendar import calendar, calendar_api, calendar_dao
 from togger.event import event, event_api, event_dao

@@ -6,7 +6,7 @@ from dateutil import parser
 from dateutil.tz import UTC
 from flask import Blueprint, request, jsonify
 
-from togger import db
+from togger import db  # type: ignore[attr-defined]
 from togger.event import event_dao
 
 bp = Blueprint("event_api", __name__, url_prefix="/api/v1/calendars/events")
@@ -15,8 +15,8 @@ bp = Blueprint("event_api", __name__, url_prefix="/api/v1/calendars/events")
 @bp.route("/", methods=["GET"])
 @flask_login.login_required
 def get_events():
-    start = parser.isoparse(request.args.get("start")).astimezone(UTC)
-    end = parser.isoparse(request.args.get("end")).astimezone(UTC)
+    start = parser.isoparse(request.args["start"]).astimezone(UTC)
+    end = parser.isoparse(request.args["end"]).astimezone(UTC)
     events = [event.serialized for event in event_dao.get_events(start, end)]
     return jsonify(events)
 

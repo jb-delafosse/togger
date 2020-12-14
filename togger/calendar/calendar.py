@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request
 from flask_login import login_manager, LoginManager
 from flask_wtf import FlaskForm
 
-from togger import application
+from togger import application  # type: ignore[attr-defined]
 from togger.auth import auth_dao
 from togger.auth.models import Role
 from togger.calendar import calendar_dao

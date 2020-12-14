@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.ext.declarative import declared_attr
 
-from togger import db
+from togger import db  # type: ignore[attr-defined]
 from togger.database import GUID, same_as
 
 

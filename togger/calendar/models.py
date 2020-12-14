@@ -5,7 +5,7 @@ from json import loads
 from itsdangerous import URLSafeSerializer, BadSignature
 from sqlalchemy import JSON
 
-from togger import db
+from togger import db  # type: ignore[attr-defined]
 from togger.database import GUID
 
 default_settings = (

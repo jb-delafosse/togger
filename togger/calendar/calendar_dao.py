@@ -2,7 +2,7 @@ import flask_login
 from flask import flash
 from flask.json import dumps
 
-from togger import db
+from togger import db  # type: ignore[attr-defined]
 from togger.auth import auth_dao
 from togger.auth.models import Role
 from togger.calendar.models import Share, Calendar
@@ -85,7 +85,6 @@ def get_current_calendar():
             return role.calendar
     else:
         return None
-    return role.calendar
 
 
 def set_default(calendar_id):

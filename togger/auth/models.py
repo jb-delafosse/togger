@@ -6,7 +6,7 @@ from itsdangerous import URLSafeSerializer, BadSignature
 from sqlalchemy import UniqueConstraint
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from togger import db
+from togger import db  # type: ignore[attr-defined]
 from togger.database import GUID
 
 

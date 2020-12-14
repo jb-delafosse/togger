@@ -6,7 +6,7 @@ from threading import Thread
 import flask_login
 from flask import flash, current_app
 
-from togger import db
+from togger import db  # type: ignore[attr-defined]
 from togger.auth.models import User, Role
 from togger.calendar.models import Calendar
 

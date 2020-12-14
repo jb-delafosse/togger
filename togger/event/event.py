@@ -8,7 +8,7 @@ from flask import Blueprint, render_template, request
 from flask_login import LoginManager
 from flask_wtf import FlaskForm
 
-from togger import application
+from togger import application  # type: ignore[attr-defined]
 from togger.event import event_dao
 from togger.event.models import Event
 
@@ -59,14 +59,14 @@ def render_shifts(time_zone=None):
 @flask_login.login_required
 def render_event(timezone=None, recur_event=None):
     if request.args.get("timeZone"):
-        timezone = pytz.timezone(request.args.get("timeZone"))
+        timezone = pytz.timezone(request.args["timeZone"])
     event_id = request.args.get("id")
     recur_id = request.args.get("recurId")
 
     if request.args.get("start"):
-        start = parser.parse(request.args.get("start"))
+        start = parser.parse(request.args["start"])
     if request.args.get("end"):
-        end = parser.parse(request.args.get("end"))
+        end = parser.parse(request.args["end"])
 
     if event_id:
         event = event_dao.get_event(event_id)
@@ -95,10 +95,10 @@ def render_event(timezone=None, recur_event=None):
 def render_recurrent():
     recur_id = request.args.get("recurId")
     event_id = request.args.get("eventId")
-    start = parser.parse(request.args.get("start"))
-    end = parser.parse(request.args.get("end"))
-    init_start = parser.parse(request.args.get("initStart"))
-    timezone = pytz.timezone(request.args.get("timeZone"))
+    start = parser.parse(request.args["start"])
+    end = parser.parse(request.args["end"])
+    init_start = parser.parse(request.args["initStart"])
+    timezone = pytz.timezone(request.args["timeZone"])
     all_day = request.args.get("allDay")
     title = request.args.get("eventTitle")
     description = request.args.get("description")

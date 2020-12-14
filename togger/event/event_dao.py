@@ -7,7 +7,7 @@ from dateutil.tz import UTC
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 
-from togger import db
+from togger import db  # type: ignore[attr-defined]
 from togger.calendar import calendar_dao
 from .models import Shift, Event, RecurEvent
 from ..auth import auth_dao
@@ -211,7 +211,7 @@ def remove_event(event_id):
     )
     if event.recur_id:
         event.hide = True
-        for shift in shifts:
+        for shift in event.shifts:
             db.session.delete(shift)
         db.session.merge(event)
     else:
