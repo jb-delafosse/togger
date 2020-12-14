@@ -18,15 +18,17 @@ class EventBase(db.Model):
 
     @declared_attr
     def calendar_id(self):
-        return db.Column(GUID(), db.ForeignKey('calendar.id'), nullable=False)
+        return db.Column(GUID(), db.ForeignKey("calendar.id"), nullable=False)
 
 
 class Event(EventBase):
     id = db.Column(GUID(), primary_key=True, default=uuid.uuid4)
-    recur_id = db.Column(GUID(), db.ForeignKey('recur_event.id'))
-    recur_event = db.relationship('RecurEvent')
-    shifts = db.relationship('Shift', backref='Event', cascade="all,delete", lazy=True)
-    init_start = db.Column(db.DateTime, default=same_as('start'))
+    recur_id = db.Column(GUID(), db.ForeignKey("recur_event.id"))
+    recur_event = db.relationship("RecurEvent")
+    shifts = db.relationship(
+        "Shift", backref="Event", cascade="all,delete", lazy=True
+    )
+    init_start = db.Column(db.DateTime, default=same_as("start"))
     # sometimes will have to hide the event instead of true removal in order to remember what actually event was
     # removed from the recurrent group
     hide = db.Column(db.Boolean, default=False, nullable=False)
@@ -34,17 +36,17 @@ class Event(EventBase):
     @property
     def serialized(self):
         output = {
-            'title': self.title,
-            'description': self.description,
-            'start': self.start.isoformat() + 'Z',
-            'end': self.end.isoformat() + 'Z',
-            'color': self.get_color(),
-            'allDay': self.all_day
+            "title": self.title,
+            "description": self.description,
+            "start": self.start.isoformat() + "Z",
+            "end": self.end.isoformat() + "Z",
+            "color": self.get_color(),
+            "allDay": self.all_day,
         }
         if self.id:
-            output['id'] = self.id
+            output["id"] = self.id
         if self.recur_id:
-            output['recurId'] = self.recur_id
+            output["recurId"] = self.recur_id
         return output
 
     def get_color(self):
@@ -61,19 +63,16 @@ class RecurEvent(EventBase):
     start_recur = db.Column(db.DateTime, nullable=False)
     end_recur = db.Column(db.DateTime)
     rrule = db.Column(db.String(256), nullable=False)
-    recurrent_type = db.Column(db.String(256), nullable=False, default='')
+    recurrent_type = db.Column(db.String(256), nullable=False, default="")
     recurrent_interval = db.Column(db.Integer, nullable=False, default=1)
 
 
 class Shift(db.Model):
     id = db.Column(GUID(), primary_key=True, default=uuid.uuid4)
     person = db.Column(db.String(80), nullable=False)
-    event_id = db.Column(GUID(), db.ForeignKey('event.id'), nullable=False)
-    UniqueConstraint(person, event_id, name='shift_person_event_key')
+    event_id = db.Column(GUID(), db.ForeignKey("event.id"), nullable=False)
+    UniqueConstraint(person, event_id, name="shift_person_event_key")
 
     @property
     def serialized(self):
-        return {
-            'id': self.id,
-            'person': self.person
-        }
+        return {"id": self.id, "person": self.person}

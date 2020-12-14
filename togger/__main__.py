@@ -1,12 +1,12 @@
 # type: ignore[attr-defined]
 
+from typing import Optional
+
 import random
 from enum import Enum
-from typing import Optional
 
 import typer
 from rich.console import Console
-
 from togger import __version__
 from togger.example import hello
 
@@ -31,9 +31,7 @@ console = Console()
 def version_callback(value: bool):
     """Prints the version of the package."""
     if value:
-        console.print(
-            f"[yellow]togger[/] version: [bold blue]{__version__}[/]"
-        )
+        console.print(f"[yellow]togger[/] version: [bold blue]{__version__}[/]")
         raise typer.Exit()
 
 
@@ -42,13 +40,16 @@ def main(
     name: str = typer.Option(..., help="Name of person to greet."),
     color: Optional[Color] = typer.Option(
         None,
-        "-c", "--color", "--colour",
+        "-c",
+        "--color",
+        "--colour",
         case_sensitive=False,
         help="Color for name. If not specified then choice will be random.",
     ),
     version: bool = typer.Option(
         None,
-        "-v", "--version",
+        "-v",
+        "--version",
         callback=version_callback,
         is_eager=True,
         help="Prints the version of the togger package.",

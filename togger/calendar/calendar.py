@@ -13,43 +13,52 @@ bp = Blueprint("calendar", __name__, template_folder="templates")
 login_manager = LoginManager()
 
 
-@application.route('/settings', methods=['GET'])
+@application.route("/settings", methods=["GET"])
 @flask_login.login_required
 def render_settings():
-    return render_template('settings.html', calendar=calendar_dao.get_current_calendar(), form=SettingsForm())
+    return render_template(
+        "settings.html",
+        calendar=calendar_dao.get_current_calendar(),
+        form=SettingsForm(),
+    )
 
 
-@application.route('/render_delete', methods=['GET'])
+@application.route("/render_delete", methods=["GET"])
 @flask_login.login_required
 def render_delete():
-    return render_template('delete_modal.html', form=DeleteForm())
+    return render_template("delete_modal.html", form=DeleteForm())
 
 
-@application.route('/render_share', methods=['GET'])
+@application.route("/render_share", methods=["GET"])
 @flask_login.login_required
 def render_share():
-    return render_template('share_modal.html', form=FlaskForm())
+    return render_template("share_modal.html", form=FlaskForm())
 
 
-@application.route('/render_new', methods=['GET'])
+@application.route("/render_new", methods=["GET"])
 @flask_login.login_required
 def render_new():
-    return render_template('new_modal.html', form=NewForm())
+    return render_template("new_modal.html", form=NewForm())
 
 
-@application.route('/render_transfer_ownership', methods=['GET'])
+@application.route("/render_transfer_ownership", methods=["GET"])
 @flask_login.login_required
 def render_transfer_ownership():
-    form_id = request.args.get('form_id')
-    return render_template('transfer_ownership.html', form_id=form_id)
+    form_id = request.args.get("form_id")
+    return render_template("transfer_ownership.html", form_id=form_id)
 
 
-@application.route('/shares', methods=['GET'])
+@application.route("/shares", methods=["GET"])
 @flask_login.login_required
 @auth_dao.has_role(Role.OWNER)
 def render_shares():
     shares = calendar_dao.get_shares()
-    return render_template('shares.html', calendar=calendar_dao.get_current_calendar(), shares=shares, form=FlaskForm())
+    return render_template(
+        "shares.html",
+        calendar=calendar_dao.get_current_calendar(),
+        shares=shares,
+        form=FlaskForm(),
+    )
 
 
 @bp.record_once
