@@ -30,6 +30,21 @@ def get_events(start, end):
     return events
 
 
+def get_all_events(start, end):
+    events = (
+        Event.query.filter(Event.start <= end)
+        .filter(Event.end >= start)
+        .all()
+    )
+    recur_events_unboxed = list(
+        filter(lambda event: event.recur_id is not None, events)
+    )
+    events.extend(get_recur_events(start, end, recur_events_unboxed))
+    events = list(filter(lambda event: event.hide is not True, events))
+    return events
+
+
+
 def get_recur_events(start, end, recur_events_unboxed):
     events = []
     calendar_id = calendar_dao.get_current_calendar().id
