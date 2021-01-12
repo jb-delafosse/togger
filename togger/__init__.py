@@ -20,6 +20,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 
+__all__ = ['database']
+
 csp = {
     "script-src": [
         "'unsafe-inline'",

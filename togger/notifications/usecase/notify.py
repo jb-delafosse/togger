@@ -17,5 +17,5 @@ class NotifyUsecase:
         events = self._db.get_events(start=date, end=date + timedelta(days=3))
         for event, user in itertools.product(events, users):
             if not event.shifts:
-                self._notif_sender.send_notif(user=user, event=event)
+                self._notif_sender.send_notification(user=user, event=event)
 

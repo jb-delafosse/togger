@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: 8d0d09f3990a
-Revises: 
+Revises:
 Create Date: 2020-06-25 22:22:13.900545
 
 """
@@ -9,7 +9,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-import togger.database
+import togger
 
 revision = "8d0d09f3990a"
 down_revision = None

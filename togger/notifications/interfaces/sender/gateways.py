@@ -3,12 +3,13 @@ from typing import Callable
 
 from togger.auth.models import User
 from togger.event.models import Event
+from togger.notifications.dtos import MailContext
 
 
 class INotificationSender(ABC):
 
     @abstractmethod
-    def send_notif(self, user: User, event: Event) -> None:
+    def send_notification(self, user: User, mail_context: MailContext) -> None:
         pass
 
 
